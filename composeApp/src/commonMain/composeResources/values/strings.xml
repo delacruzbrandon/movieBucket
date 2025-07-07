@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="icon_calendar">Calendar Icon</string>
+    <string name="icon_star">Star Icon</string>
+    <string name="image_movie_thumbnail">Movie Thumbnail</string>
+    <string name="book_image">Book Image</string>
+</resources>
