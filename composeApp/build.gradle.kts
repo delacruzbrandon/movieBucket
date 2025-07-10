@@ -33,6 +33,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.bundles.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -46,6 +47,10 @@ kotlin {
             implementation(libs.devsrsouza.icons)
             implementation(libs.coil.compose)
             implementation(libs.coil.network)
+            implementation(libs.bundles.common.kmp)
+        }
+        nativeMain.dependencies {
+            implementation(libs.bundles.ios)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

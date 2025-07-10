@@ -15,6 +15,8 @@ junit = "4.13.2"
 kotlin = "2.2.0"
 devsrsouza = "1.1.1"
 coil = "3.2.0"
+coroutines = "1.10.2"
+ktor = "3.2.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -29,6 +31,20 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 
+# Coroutines
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+
+# Ktor
+
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" } # Ktor Android
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" } # Ktor iOS
+
 # Icons
 devsrsouza-icons = { module = "br.com.devsrsouza.compose.icons:eva-icons", version.ref = "devsrsouza" }
 
@@ -42,3 +58,22 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+
+[bundles]
+common-kmp = [
+    "kotlinx-coroutines-core",
+    "ktor-client-core",
+    "ktor-client-logging",
+    "ktor-client-auth",
+    "ktor-client-content-negotiation",
+    "ktor-serialization-kotlinx-json",
+]
+
+android = [
+    "ktor-client-okhttp",
+    "kotlinx-coroutines-android"
+]
+
+ios = [
+    "ktor-client-darwin"
+]
