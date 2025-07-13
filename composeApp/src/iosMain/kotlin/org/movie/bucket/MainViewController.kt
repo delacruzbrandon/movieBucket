@@ -5,6 +5,7 @@ import androidx.compose.ui.window.ComposeUIViewController
 import io.ktor.client.engine.darwin.Darwin
 import org.movie.bucket.core.data.network.CocktailClient
 import org.movie.bucket.core.data.network.InsultCensorClient
+import org.movie.bucket.core.data.network.MovieClient
 import org.movie.bucket.core.data.network.createHttpClient
 
 fun MainViewController() = ComposeUIViewController { App(
@@ -21,5 +22,12 @@ fun MainViewController() = ComposeUIViewController { App(
                 engine = Darwin.create()
             )
         )
-    }
+    },
+    movieClient = remember {
+        MovieClient(
+            httpClient = createHttpClient(
+                engine = Darwin.create()
+            )
+        )
+    },
 ) }

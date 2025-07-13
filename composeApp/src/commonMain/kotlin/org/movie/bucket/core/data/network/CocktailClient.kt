@@ -6,7 +6,7 @@ import io.ktor.client.request.get
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.serialization.SerializationException
 import org.movie.bucket.core.data.models.Cocktail
-import org.movie.bucket.core.data.models.Drinks
+import org.movie.bucket.core.data.models.CocktailList
 import org.movie.bucket.utility.Result
 import util.NetworkError
 
@@ -28,8 +28,8 @@ class CocktailClient(
 
         return when(response.status.value) {
             in 200..299 -> {
-                val cocktailList = response.body<Drinks>()
-                Result.Success(cocktailList.drinks)
+                val cocktailList = response.body<CocktailList>()
+                Result.Success(cocktailList.cocktailList)
             }
             401 -> Result.Error(NetworkError.UNAUTHORIZED)
             409 -> Result.Error(NetworkError.CONFLICT)

@@ -22,8 +22,10 @@ import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.movie.bucket.core.data.models.Cocktail
+import org.movie.bucket.core.data.models.Movie
 import org.movie.bucket.core.data.network.CocktailClient
 import org.movie.bucket.core.data.network.InsultCensorClient
+import org.movie.bucket.core.data.network.MovieClient
 import org.movie.bucket.utility.onError
 import org.movie.bucket.utility.onSuccess
 import util.NetworkError
@@ -33,13 +35,17 @@ import util.NetworkError
 @Preview
 fun App(
     insultClient: InsultCensorClient,
-    cocktailClient: CocktailClient
+    cocktailClient: CocktailClient,
+    movieClient: MovieClient,
 ) {
     MaterialTheme {
 //        HomeScreen()
 //            var censoredText by remember {
 //                mutableStateOf<String?>(null)
 //            }
+        var movie by remember {
+            mutableStateOf<Movie?>(null)
+        }
         var cocktailDrink by remember {
             mutableStateOf<Cocktail?>(null)
         }
@@ -85,10 +91,17 @@ fun App(
 //                                errorMessage = it
 //                            }
 
-                    cocktailClient.getRandomCocktail()
-                        .onSuccess { cocktail ->
-                            cocktailName = cocktail.first().toString()
-                            cocktailDrink = cocktail.first()
+//                    cocktailClient.getRandomCocktail()
+//                        .onSuccess { cocktail ->
+//                            cocktailName = cocktail.first().toString()
+//                            cocktailDrink = cocktail.first()
+//                        }
+//                        .onError {
+//                            errorMessage = it
+//                        }
+                    movieClient.getPopularMovies()
+                        .onSuccess { movieList ->
+                            movie = movieList.random()
                         }
                         .onError {
                             errorMessage = it
@@ -110,20 +123,21 @@ fun App(
 //                censoredText?.let {
 //                    Text(it)
 //                }
-            cocktailDrink?.let { details ->
+//            cocktailDrink?.let { details ->
+            movie?.let { details ->
                 Column {
                     AsyncImage(
-                        model = details.thumbnail,
-                        contentDescription = details.name
+                        model = "https://image.tmdb.org/t/p/w200" + details.thumbnail,
+                        contentDescription = details.thumbnail
                     )
                     Spacer(Modifier.height(16.dp))
-                    Text(details.name)
+                    Text(details.title)
                     Spacer(Modifier.height(16.dp))
-                    details.instructions?.let { Text(it) }
+                    details.description?.let { Text(it) }
                     Spacer(Modifier.height(16.dp))
-                    details.tags?.let { Text(it) }
+                    details.rating?.let { Text(it.toString()) }
                     Spacer(Modifier.height(16.dp))
-                    details.instructions?.let { Text(it) }
+                    Text(details.language)
                 }
             }
 //            cocktailName?.let {

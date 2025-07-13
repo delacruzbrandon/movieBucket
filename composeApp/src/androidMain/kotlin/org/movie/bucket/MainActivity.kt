@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import io.ktor.client.engine.okhttp.OkHttp
 import org.movie.bucket.core.data.network.CocktailClient
 import org.movie.bucket.core.data.network.InsultCensorClient
+import org.movie.bucket.core.data.network.MovieClient
 import org.movie.bucket.core.data.network.createHttpClient
 
 class MainActivity : ComponentActivity() {
@@ -30,7 +31,14 @@ class MainActivity : ComponentActivity() {
                             engine = OkHttp.create()
                         )
                     )
-                }
+                },
+                movieClient = remember {
+                    MovieClient(
+                        httpClient = createHttpClient(
+                            engine = OkHttp.create()
+                        )
+                    )
+                },
             )
         }
     }
