@@ -16,8 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.movie.bucket.core.data.models.Cocktail
 import org.movie.bucket.core.data.network.CocktailClient
 import org.movie.bucket.core.data.network.InsultCensorClient
 import org.movie.bucket.utility.onError
@@ -36,39 +38,42 @@ fun App(
 //            var censoredText by remember {
 //                mutableStateOf<String?>(null)
 //            }
-            var cocktailName by remember {
-                mutableStateOf<String?>(null)
-            }
-            var uncensoredText by remember {
-                mutableStateOf("")
-            }
-            var isLoading by remember {
-                mutableStateOf(false)
-            }
-            var errorMessage by remember {
-                mutableStateOf<NetworkError?>(null)
-            }
-            val scope = rememberCoroutineScope()
-            Column(
+        var cocktailDrink by remember {
+            mutableStateOf<Cocktail?>(null)
+        }
+        var cocktailName by remember {
+            mutableStateOf<String?>(null)
+        }
+        var uncensoredText by remember {
+            mutableStateOf("")
+        }
+        var isLoading by remember {
+            mutableStateOf(false)
+        }
+        var errorMessage by remember {
+            mutableStateOf<NetworkError?>(null)
+        }
+        val scope = rememberCoroutineScope()
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
+        ) {
+            TextField(
+                value = uncensoredText,
+                onValueChange = { uncensoredText = it },
                 modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
-            ) {
-                TextField(
-                    value = uncensoredText,
-                    onValueChange = { uncensoredText = it },
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxWidth(),
-                    placeholder = {
-                        Text("Uncensored text")
-                    }
-                )
-                Button(onClick = {
-                    scope.launch {
-                        isLoading = true
-                        errorMessage = null
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth(),
+                placeholder = {
+                    Text("Uncensored text")
+                }
+            )
+            Button(onClick = {
+                scope.launch {
+                    isLoading = true
+                    errorMessage = null
 
 //                        insultClient.censorWords(uncensoredText)
 //                            .onSuccess {
@@ -78,40 +83,53 @@ fun App(
 //                                errorMessage = it
 //                            }
 
-                        cocktailClient.getRandomCocktail()
-                            .onSuccess {
-                                cocktailName = it.first().toString()
-                            }
-                            .onError {
-                                errorMessage = it
-                            }
-                        isLoading = false
-                    }
-                }) {
-                    if(isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .size(15.dp),
-                            strokeWidth = 1.dp,
-                            color = Color.White
-                        )
-                    } else {
-                        Text("Censor!")
-                    }
+                    cocktailClient.getRandomCocktail()
+                        .onSuccess { cocktail ->
+                            cocktailName = cocktail.first().toString()
+                            cocktailDrink = cocktail.first()
+                        }
+                        .onError {
+                            errorMessage = it
+                        }
+                    isLoading = false
                 }
+            }) {
+                if(isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(15.dp),
+                        strokeWidth = 1.dp,
+                        color = Color.White
+                    )
+                } else {
+                    Text("Censor!")
+                }
+            }
 //                censoredText?.let {
 //                    Text(it)
 //                }
-                cocktailName?.let {
-                    Text(it)
-                }
-                errorMessage?.let {
-                    Text(
-                        text = it.name,
-                        color = Color.Red
+            cocktailDrink?.let { details ->
+                Column {
+                    AsyncImage(
+                        model = details.thumbnail,
+                        contentDescription = details.name
                     )
+                    Text(details.name)
+                    details.instructions?.let { Text(it) }
+                    details.tags?.let { Text(it) }
+                    details.instructions?.let { Text(it) }
                 }
             }
+//            cocktailName?.let {
+//                Text(it)
+//            }
+            errorMessage?.let {
+                Text(
+                    text = it.name,
+                    color = Color.Red
+                )
+            }
+        }
 
     }
 }
