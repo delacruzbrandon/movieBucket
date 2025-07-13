@@ -2,8 +2,10 @@ package org.movie.bucket
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -114,9 +116,13 @@ fun App(
                         model = details.thumbnail,
                         contentDescription = details.name
                     )
+                    Spacer(Modifier.height(16.dp))
                     Text(details.name)
+                    Spacer(Modifier.height(16.dp))
                     details.instructions?.let { Text(it) }
+                    Spacer(Modifier.height(16.dp))
                     details.tags?.let { Text(it) }
+                    Spacer(Modifier.height(16.dp))
                     details.instructions?.let { Text(it) }
                 }
             }
