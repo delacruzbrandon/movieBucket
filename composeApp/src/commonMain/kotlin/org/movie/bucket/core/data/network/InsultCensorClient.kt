@@ -1,4 +1,4 @@
-package org.movie.bucket.data
+package org.movie.bucket.core.data.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -6,7 +6,8 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.serialization.SerializationException
-import org.movie.bucket.domain.utility.Result
+import org.movie.bucket.core.data.models.CensoredText
+import org.movie.bucket.utility.Result
 import util.NetworkError
 
 class InsultCensorClient(

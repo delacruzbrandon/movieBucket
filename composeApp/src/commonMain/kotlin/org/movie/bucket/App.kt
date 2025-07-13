@@ -18,19 +18,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.movie.bucket.data.InsultCensorClient
-import org.movie.bucket.domain.utility.onError
-import org.movie.bucket.domain.utility.onSuccess
-import org.movie.bucket.presentation.features.home.HomeScreen
+import org.movie.bucket.core.data.network.CocktailClient
+import org.movie.bucket.core.data.network.InsultCensorClient
+import org.movie.bucket.utility.onError
+import org.movie.bucket.utility.onSuccess
 import util.NetworkError
 
 
 @Composable
 @Preview
-fun App(client: InsultCensorClient) {
+fun App(
+    insultClient: InsultCensorClient,
+    cocktailClient: CocktailClient
+) {
     MaterialTheme {
 //        HomeScreen()
-            var censoredText by remember {
+//            var censoredText by remember {
+//                mutableStateOf<String?>(null)
+//            }
+            var cocktailName by remember {
                 mutableStateOf<String?>(null)
             }
             var uncensoredText by remember {
@@ -64,9 +70,17 @@ fun App(client: InsultCensorClient) {
                         isLoading = true
                         errorMessage = null
 
-                        client.censorWords(uncensoredText)
+//                        insultClient.censorWords(uncensoredText)
+//                            .onSuccess {
+//                                censoredText = it
+//                            }
+//                            .onError {
+//                                errorMessage = it
+//                            }
+
+                        cocktailClient.getRandomCocktail()
                             .onSuccess {
-                                censoredText = it
+                                cocktailName = it.first().toString()
                             }
                             .onError {
                                 errorMessage = it
@@ -85,7 +99,10 @@ fun App(client: InsultCensorClient) {
                         Text("Censor!")
                     }
                 }
-                censoredText?.let {
+//                censoredText?.let {
+//                    Text(it)
+//                }
+                cocktailName?.let {
                     Text(it)
                 }
                 errorMessage?.let {

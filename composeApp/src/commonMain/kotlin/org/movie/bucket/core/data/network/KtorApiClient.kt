@@ -2,8 +2,8 @@
 //
 //import io.ktor.client.HttpClient
 //import io.ktor.client.request.get
-//import org.movie.bucket.domain.utility.Error
-//import org.movie.bucket.domain.utility.Result
+//import org.movie.bucket.core.utility.Error
+//import org.movie.bucket.core.utility.Result
 //
 //class KtorApiClient(
 //    val httpClient: HttpClient

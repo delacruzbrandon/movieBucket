@@ -1,6 +1,6 @@
 package util
 
-import org.movie.bucket.domain.utility.Error
+import org.movie.bucket.utility.Error
 
 enum class NetworkError : Error {
     REQUEST_TIMEOUT,
