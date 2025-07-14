@@ -1,4 +1,4 @@
-package org.movie.bucket.core.data.network
+package org.movie.bucket.domain.builder
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine

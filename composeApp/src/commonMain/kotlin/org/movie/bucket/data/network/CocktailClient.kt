@@ -1,25 +1,24 @@
-package org.movie.bucket.core.data.network
+package org.movie.bucket.data.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.serialization.SerializationException
-import org.movie.bucket.core.data.models.CensoredText
-import org.movie.bucket.utility.Result
+import org.movie.bucket.domain.models.Cocktail
+import org.movie.bucket.domain.models.CocktailList
+import org.movie.bucket.domain.utility.Result
 import util.NetworkError
 
-class InsultCensorClient(
+class CocktailClient(
     private val httpClient: HttpClient
 ) {
-
-    suspend fun censorWords(uncensored: String): Result<String, NetworkError> {
+    suspend fun getRandomCocktail(): Result<List<Cocktail>, NetworkError> {
         val response = try {
             httpClient.get(
-                urlString = "https://www.purgomalum.com/service/json"
+                urlString = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
             ) {
-                parameter("text", uncensored)
+//                parameter("text", uncensored)
             }
         } catch(e: UnresolvedAddressException) {
             return Result.Error(NetworkError.NO_INTERNET)
@@ -29,8 +28,8 @@ class InsultCensorClient(
 
         return when(response.status.value) {
             in 200..299 -> {
-                val censoredText = response.body<CensoredText>()
-                Result.Success(censoredText.result)
+                val cocktailList = response.body<CocktailList>()
+                Result.Success(cocktailList.cocktailList)
             }
             401 -> Result.Error(NetworkError.UNAUTHORIZED)
             409 -> Result.Error(NetworkError.CONFLICT)

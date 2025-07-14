@@ -38,10 +38,6 @@ import compose.icons.evaicons.Fill
 import compose.icons.evaicons.fill.Calendar
 import compose.icons.evaicons.fill.Clock
 import compose.icons.evaicons.fill.Film
-import moviebucket.composeapp.generated.resources.Res
-import moviebucket.composeapp.generated.resources.compose_multiplatform
-import org.jetbrains.compose.resources.painterResource
-import org.movie.bucket.Greeting
 import org.movie.bucket.presentation.composables.MovieThumbnail
 import org.movie.bucket.presentation.composables.RowIconText
 
@@ -58,13 +54,13 @@ fun HomeContent() {
         Button(onClick = { showContent = !showContent }) {
             Text("Click me!")
         }
-        AnimatedVisibility(showContent) {
-            val greeting = remember { Greeting().greet() }
-            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                Image(painterResource(Res.drawable.compose_multiplatform), null)
-                Text("Compose: $greeting")
-            }
-        }
+//        AnimatedVisibility(showContent) {
+//            val greeting = remember { Greeting().greet() }
+//            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+//                Image(painterResource(Res.drawable.compose_multiplatform), null)
+//                Text("Compose: $greeting")
+//            }
+//        }
     }
 }
 

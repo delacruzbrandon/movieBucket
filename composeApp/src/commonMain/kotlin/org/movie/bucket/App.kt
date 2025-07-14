@@ -21,13 +21,13 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.movie.bucket.core.data.models.Cocktail
-import org.movie.bucket.core.data.models.Movie
-import org.movie.bucket.core.data.network.CocktailClient
-import org.movie.bucket.core.data.network.InsultCensorClient
-import org.movie.bucket.core.data.network.MovieClient
-import org.movie.bucket.utility.onError
-import org.movie.bucket.utility.onSuccess
+import org.movie.bucket.domain.models.Cocktail
+import org.movie.bucket.domain.models.Movie
+import org.movie.bucket.data.network.CocktailClient
+import org.movie.bucket.data.network.InsultCensorClient
+import org.movie.bucket.data.network.MovieClient
+import org.movie.bucket.domain.utility.onError
+import org.movie.bucket.domain.utility.onSuccess
 import util.NetworkError
 
 

@@ -1,4 +1,4 @@
-package org.movie.bucket.core.data.models
+package org.movie.bucket.domain.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,4 +1,4 @@
-package org.movie.bucket.core.data.network
+package org.movie.bucket.data.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -7,9 +7,9 @@ import io.ktor.client.request.headers
 import io.ktor.http.HttpHeaders
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.serialization.SerializationException
-import org.movie.bucket.core.data.models.Movie
-import org.movie.bucket.core.data.models.MovieList
-import org.movie.bucket.utility.Result
+import org.movie.bucket.domain.models.Movie
+import org.movie.bucket.domain.models.MovieList
+import org.movie.bucket.domain.utility.Result
 import util.NetworkError
 
 class MovieClient(
