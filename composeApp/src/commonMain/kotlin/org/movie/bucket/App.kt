@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.movie.bucket.domain.models.Cocktail
@@ -28,7 +29,9 @@ import org.movie.bucket.data.network.InsultCensorClient
 import org.movie.bucket.data.network.MovieClient
 import org.movie.bucket.domain.utility.onError
 import org.movie.bucket.domain.utility.onSuccess
+import org.movie.bucket.presentation.features.home.HomeViewModel
 import util.NetworkError
+import kotlin.coroutines.CoroutineContext
 
 
 @Composable
@@ -37,31 +40,49 @@ fun App(
     insultClient: InsultCensorClient,
     cocktailClient: CocktailClient,
     movieClient: MovieClient,
+    homeViewModel: HomeViewModel = HomeViewModel(movieClient)
 ) {
+    val movieListState by homeViewModel.movieList.collectAsState()
+    val randomMovieState by homeViewModel.randomMovie.collectAsState()
+
+    var movie by remember {
+        mutableStateOf<Movie?>(null)
+    }
+    var cocktailDrink by remember {
+        mutableStateOf<Cocktail?>(null)
+    }
+    var cocktailName by remember {
+        mutableStateOf<String?>(null)
+    }
+    var uncensoredText by remember {
+        mutableStateOf("")
+    }
+    var isLoading by remember {
+        mutableStateOf(false)
+    }
+    var errorMessage by remember {
+        mutableStateOf<NetworkError?>(null)
+    }
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit)  {
+        homeViewModel.getPopularMovies()
+    }
+
+    LaunchedEffect(movieListState)  {
+        homeViewModel.getRandomMovie()
+    }
+//
+//    LaunchedEffect(movieListState)  {
+//        if (movieListState.isNotEmpty()) {
+//            movie = movieListState.random()
+//        }
+//    }
     MaterialTheme {
 //        HomeScreen()
 //            var censoredText by remember {
 //                mutableStateOf<String?>(null)
 //            }
-        var movie by remember {
-            mutableStateOf<Movie?>(null)
-        }
-        var cocktailDrink by remember {
-            mutableStateOf<Cocktail?>(null)
-        }
-        var cocktailName by remember {
-            mutableStateOf<String?>(null)
-        }
-        var uncensoredText by remember {
-            mutableStateOf("")
-        }
-        var isLoading by remember {
-            mutableStateOf(false)
-        }
-        var errorMessage by remember {
-            mutableStateOf<NetworkError?>(null)
-        }
-        val scope = rememberCoroutineScope()
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -99,13 +120,16 @@ fun App(
 //                        .onError {
 //                            errorMessage = it
 //                        }
-                    movieClient.getPopularMovies()
-                        .onSuccess { movieList ->
-                            movie = movieList.random()
-                        }
-                        .onError {
-                            errorMessage = it
-                        }
+                    homeViewModel.getRandomMovie()
+//                    movie = randomMovieState
+                    errorMessage = homeViewModel.getErrorMessage()
+//                    movieClient.getPopularMovies()
+//                        .onSuccess { movieList ->
+//                            movie = movieList.random()
+//                        }
+//                        .onError {
+//                            errorMessage = it
+//                        }
                     isLoading = false
                 }
             }) {
@@ -124,7 +148,7 @@ fun App(
 //                    Text(it)
 //                }
 //            cocktailDrink?.let { details ->
-            movie?.let { details ->
+            randomMovieState?.let { details ->
                 Column {
                     AsyncImage(
                         model = "https://image.tmdb.org/t/p/w200" + details.thumbnail,

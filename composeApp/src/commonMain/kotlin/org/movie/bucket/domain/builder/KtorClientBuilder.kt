@@ -12,9 +12,6 @@ import kotlinx.serialization.json.Json
 fun createHttpClient(
     engine: HttpClientEngine
 ): HttpClient {
-    val apiKey = "**********"
-    val appJson = "application/json"
-
     val client = HttpClient(engine) {
         install(ContentNegotiation) {
             json(
@@ -36,7 +33,6 @@ fun createHttpClient(
 
             }
         }
-
 //        defaultRequest {
 //            contentType(ContentType.Application.Json)
 //            header(HttpHeaders.Authorization, apiKey)

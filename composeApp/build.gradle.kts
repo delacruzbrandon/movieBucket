@@ -46,15 +46,14 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.devsrsouza.icons)
-            implementation(libs.coil.compose)
-            implementation(libs.coil.network)
-            implementation(libs.bundles.common.kmp)
+            implementation(libs.bundles.common)
         }
         nativeMain.dependencies {
             implementation(libs.bundles.ios)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.bundles.test)
         }
     }
 }

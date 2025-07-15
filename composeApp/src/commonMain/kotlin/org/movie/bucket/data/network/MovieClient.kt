@@ -9,26 +9,23 @@ import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.serialization.SerializationException
 import org.movie.bucket.domain.models.Movie
 import org.movie.bucket.domain.models.MovieList
+import org.movie.bucket.domain.utility.Constants.API_KEY
+import org.movie.bucket.domain.utility.Constants.APP_JSON
 import org.movie.bucket.domain.utility.Result
 import util.NetworkError
 
 class MovieClient(
     private val httpClient: HttpClient
 ) {
-    val apiKey = "Bearer *****"
-/*
- REMOVED API KEY. Just add it again from your account from link
- https://developer.themoviedb.org/reference/movie-popular-list
- */
-    val appJson = "application/json"
+
     suspend fun getPopularMovies(): Result<List<Movie>, NetworkError> {
         val response = try {
             httpClient.get(
                 urlString = "https://api.themoviedb.org/3/movie/popular"
             ) {
                 headers {
-                    append(HttpHeaders.Accept, appJson)
-                    append(HttpHeaders.Authorization, apiKey)
+                    append(HttpHeaders.Accept, APP_JSON)
+                    append(HttpHeaders.Authorization, API_KEY)
                 }
             }
         } catch (e: UnresolvedAddressException) {
