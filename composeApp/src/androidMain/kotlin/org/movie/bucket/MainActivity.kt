@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.remember
 import io.ktor.client.engine.okhttp.OkHttp
 import org.movie.bucket.data.network.CocktailClient
-import org.movie.bucket.data.network.InsultCensorClient
 import org.movie.bucket.data.network.MovieClient
 import org.movie.bucket.domain.builder.createHttpClient
 
@@ -18,13 +17,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             App(
-                insultClient = remember {
-                    InsultCensorClient(
-                        httpClient = createHttpClient(
-                            engine = OkHttp.create()
-                        )
-                    )
-                },
                 cocktailClient = remember {
                     CocktailClient(
                         httpClient = createHttpClient(

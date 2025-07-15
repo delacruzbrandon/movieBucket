@@ -25,7 +25,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.movie.bucket.domain.models.Cocktail
 import org.movie.bucket.domain.models.Movie
 import org.movie.bucket.data.network.CocktailClient
-import org.movie.bucket.data.network.InsultCensorClient
 import org.movie.bucket.data.network.MovieClient
 import org.movie.bucket.domain.utility.onError
 import org.movie.bucket.domain.utility.onSuccess
@@ -37,7 +36,6 @@ import kotlin.coroutines.CoroutineContext
 @Composable
 @Preview
 fun App(
-    insultClient: InsultCensorClient,
     cocktailClient: CocktailClient,
     movieClient: MovieClient,
     homeViewModel: HomeViewModel = HomeViewModel(movieClient)
