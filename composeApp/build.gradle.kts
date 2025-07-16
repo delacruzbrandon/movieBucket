@@ -47,6 +47,14 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.devsrsouza.icons)
             implementation(libs.bundles.common)
+
+            api(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.compose.navigation)
+            implementation(libs.navigation.compose)
+            implementation(libs.koin.ktor)
+//            implementation(libs.koin.ktor.logger)
         }
         nativeMain.dependencies {
             implementation(libs.bundles.ios)

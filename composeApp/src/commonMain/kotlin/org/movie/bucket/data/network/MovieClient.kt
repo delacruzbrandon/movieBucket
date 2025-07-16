@@ -8,7 +8,7 @@ import io.ktor.http.HttpHeaders
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.serialization.SerializationException
 import org.movie.bucket.domain.models.Movie
-import org.movie.bucket.domain.models.MovieList
+import org.movie.bucket.domain.models.MovieListResponse
 import org.movie.bucket.domain.utility.Constants.API_KEY
 import org.movie.bucket.domain.utility.Constants.APP_JSON
 import org.movie.bucket.domain.utility.Result
@@ -35,7 +35,7 @@ class MovieClient(
         }
         return when (response.status.value) {
             in 200..299 -> {
-                val movieList = response.body<MovieList>()
+                val movieList = response.body<MovieListResponse>()
                 Result.Success(movieList.results)
             }
 

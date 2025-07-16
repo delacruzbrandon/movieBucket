@@ -7,21 +7,21 @@ import org.movie.bucket.data.network.CocktailClient
 import org.movie.bucket.data.network.MovieClient
 import org.movie.bucket.domain.builder.createHttpClient
 
-fun MainViewController() =
-    ComposeUIViewController {
-        App(
-            cocktailClient = remember {
-                CocktailClient(
-                    httpClient = createHttpClient(
-                        engine = Darwin.create()
-                    )
+fun MainViewController() = ComposeUIViewController {
+    App(
+        cocktailClient = remember {
+            CocktailClient(
+                httpClient = createHttpClient(
+                    engine = Darwin.create()
                 )
-            },
-            movieClient = remember {
-                MovieClient(
-                    httpClient = createHttpClient(
-                        engine = Darwin.create()
-                    )
+            )
+        },
+        movieClient = remember {
+            MovieClient(
+                httpClient = createHttpClient(
+                    engine = Darwin.create()
                 )
-            },
-        ) }
+            )
+        },
+    )
+}

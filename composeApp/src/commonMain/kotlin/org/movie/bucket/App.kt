@@ -19,19 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.movie.bucket.domain.models.Cocktail
 import org.movie.bucket.domain.models.Movie
 import org.movie.bucket.data.network.CocktailClient
 import org.movie.bucket.data.network.MovieClient
-import org.movie.bucket.domain.utility.onError
-import org.movie.bucket.domain.utility.onSuccess
 import org.movie.bucket.presentation.features.home.HomeViewModel
 import util.NetworkError
-import kotlin.coroutines.CoroutineContext
-
 
 @Composable
 @Preview
@@ -43,15 +38,6 @@ fun App(
     val movieListState by homeViewModel.movieList.collectAsState()
     val randomMovieState by homeViewModel.randomMovie.collectAsState()
 
-    var movie by remember {
-        mutableStateOf<Movie?>(null)
-    }
-    var cocktailDrink by remember {
-        mutableStateOf<Cocktail?>(null)
-    }
-    var cocktailName by remember {
-        mutableStateOf<String?>(null)
-    }
     var uncensoredText by remember {
         mutableStateOf("")
     }
@@ -70,12 +56,11 @@ fun App(
     LaunchedEffect(movieListState)  {
         homeViewModel.getRandomMovie()
     }
-//
-//    LaunchedEffect(movieListState)  {
-//        if (movieListState.isNotEmpty()) {
-//            movie = movieListState.random()
-//        }
-//    }
+
+    LaunchedEffect(movieListState)  {
+        homeViewModel.getErrorMessage()
+    }
+
     MaterialTheme {
 //        HomeScreen()
 //            var censoredText by remember {
@@ -89,7 +74,9 @@ fun App(
         ) {
             TextField(
                 value = uncensoredText,
-                onValueChange = { uncensoredText = it },
+                onValueChange = { userInput ->
+                    uncensoredText = userInput
+                },
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
@@ -100,34 +87,7 @@ fun App(
             Button(onClick = {
                 scope.launch {
                     isLoading = true
-                    errorMessage = null
-
-//                        insultClient.censorWords(uncensoredText)
-//                            .onSuccess {
-//                                censoredText = it
-//                            }
-//                            .onError {
-//                                errorMessage = it
-//                            }
-
-//                    cocktailClient.getRandomCocktail()
-//                        .onSuccess { cocktail ->
-//                            cocktailName = cocktail.first().toString()
-//                            cocktailDrink = cocktail.first()
-//                        }
-//                        .onError {
-//                            errorMessage = it
-//                        }
                     homeViewModel.getRandomMovie()
-//                    movie = randomMovieState
-                    errorMessage = homeViewModel.getErrorMessage()
-//                    movieClient.getPopularMovies()
-//                        .onSuccess { movieList ->
-//                            movie = movieList.random()
-//                        }
-//                        .onError {
-//                            errorMessage = it
-//                        }
                     isLoading = false
                 }
             }) {
@@ -142,10 +102,6 @@ fun App(
                     Text("Censor!")
                 }
             }
-//                censoredText?.let {
-//                    Text(it)
-//                }
-//            cocktailDrink?.let { details ->
             randomMovieState?.let { details ->
                 Column {
                     AsyncImage(
@@ -162,9 +118,6 @@ fun App(
                     Text(details.language)
                 }
             }
-//            cocktailName?.let {
-//                Text(it)
-//            }
             errorMessage?.let {
                 Text(
                     text = it.name,
