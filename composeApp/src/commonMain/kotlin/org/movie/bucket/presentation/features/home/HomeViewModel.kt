@@ -16,9 +16,9 @@ import kotlin.collections.emptyList
 class HomeViewModel(
     private val movieRepository: MovieRepository
 ): ViewModel() {
-    private val _movieList: MutableStateFlow<List<Movie>> =
-        MutableStateFlow(emptyList())
-    val movieList: StateFlow<List<Movie>> = _movieList
+    private val _movieList: MutableStateFlow<Array<Movie>> =
+        MutableStateFlow(emptyArray())
+    val movieList: StateFlow<Array<Movie>> = _movieList
 
     private val _randomMovie: MutableStateFlow<Movie?> =
         MutableStateFlow(null)
