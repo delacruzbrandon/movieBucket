@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.remember
 import io.ktor.client.engine.okhttp.OkHttp
 import org.movie.bucket.data.network.CocktailClient
-import org.movie.bucket.data.network.MovieClient
+import org.movie.bucket.data.network.KtorMovieClient
 import org.movie.bucket.domain.builder.createHttpClient
 
 class MainActivity : ComponentActivity() {
@@ -24,8 +24,8 @@ class MainActivity : ComponentActivity() {
                         )
                     )
                 },
-                movieClient = remember {
-                    MovieClient(
+                ktorMovieClient = remember {
+                    KtorMovieClient(
                         httpClient = createHttpClient(
                             engine = OkHttp.create()
                         )

@@ -6,15 +6,15 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import org.movie.bucket.data.network.MovieClient
 import org.movie.bucket.domain.models.Movie
+import org.movie.bucket.domain.repositories.MovieRepository
 import org.movie.bucket.domain.utility.onError
 import org.movie.bucket.domain.utility.onSuccess
 import util.NetworkError
 import kotlin.collections.emptyList
 
 class HomeViewModel(
-    private val movieClient: MovieClient
+    private val movieRepository: MovieRepository
 ): ViewModel() {
     private val _movieList: MutableStateFlow<List<Movie>> =
         MutableStateFlow(emptyList())
@@ -27,13 +27,14 @@ class HomeViewModel(
     private var _errorMessage by mutableStateOf(NetworkError.UNKNOWN)
 
     suspend fun getPopularMovies() {
-        movieClient.getPopularMovies()
-            .onSuccess { movies ->
-                _movieList.value = movies
-            }
-            .onError { error ->
-                _errorMessage = error
-            }
+        movieRepository.getPopularMovies(
+            language = "en-US",
+            page = 1
+        )?.onSuccess { movies ->
+            _movieList.value = movies.results
+        }?.onError { error ->
+            _errorMessage = error
+        }
     }
 
     fun getRandomMovie() {

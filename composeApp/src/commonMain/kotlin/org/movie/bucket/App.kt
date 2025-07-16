@@ -18,13 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.movie.bucket.domain.models.Cocktail
-import org.movie.bucket.domain.models.Movie
+import org.koin.compose.viewmodel.koinViewModel
 import org.movie.bucket.data.network.CocktailClient
-import org.movie.bucket.data.network.MovieClient
+import org.movie.bucket.data.network.KtorMovieClient
 import org.movie.bucket.presentation.features.home.HomeViewModel
 import util.NetworkError
 
@@ -32,11 +32,11 @@ import util.NetworkError
 @Preview
 fun App(
     cocktailClient: CocktailClient,
-    movieClient: MovieClient,
-    homeViewModel: HomeViewModel = HomeViewModel(movieClient)
+    ktorMovieClient: KtorMovieClient,
+    homeViewModel: HomeViewModel = koinViewModel()
 ) {
-    val movieListState by homeViewModel.movieList.collectAsState()
-    val randomMovieState by homeViewModel.randomMovie.collectAsState()
+    val movieListState by homeViewModel.movieList.collectAsStateWithLifecycle()
+    val randomMovieState by homeViewModel.randomMovie.collectAsStateWithLifecycle()
 
     var uncensoredText by remember {
         mutableStateOf("")
