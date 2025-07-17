@@ -11,7 +11,6 @@ fun initKoin(config: KoinAppDeclaration? = null) {
         modules(
             AppModule().module, // If not showing... build to generate code
             MovieModule().module
-
         )
     }
 }

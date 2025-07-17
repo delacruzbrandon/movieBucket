@@ -11,10 +11,8 @@ import org.movie.bucket.presentation.features.home.HomeViewModel
 @Module
 class MovieModule {
     @Factory(binds = [MovieRepository::class])
-    fun provideMovieRepository(httpClient: HttpClient) = KtorMovieClient(httpClient)
+    fun provideMovieRepository(@NoAuthHttpClient httpClient: HttpClient) = KtorMovieClient(httpClient)
 
     @KoinViewModel
     fun provideHomeViewModel(movieRepository: MovieRepository) = HomeViewModel(movieRepository)
-
-
 }

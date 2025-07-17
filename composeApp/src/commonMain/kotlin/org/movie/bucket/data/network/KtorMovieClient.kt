@@ -26,27 +26,28 @@ class KtorMovieClient(
         language: String,
         page: Int
     ): Result<MovieListResponse, NetworkError>? {
-        val response = try {
-            httpClient.get {
-                url {
-                    protocol = URLProtocol.HTTPS
-                    host = BASE_URL
-                    path("3/movie/popular")
+        val response =
+            try {
+                httpClient.get {
+                    url {
+                        protocol = URLProtocol.HTTPS
+                        host = BASE_URL
+                        path("3/movie/popular")
+                    }
+                    parameters {
+                        append("language", language)
+                        append("page", page.toString())
+                    }
+                    headers {
+                        append(HttpHeaders.Accept, APP_JSON)
+                        append(HttpHeaders.Authorization, API_KEY)
+                    }
                 }
-                parameters {
-                    append("language", language)
-                    append("page", page.toString())
-                }
-                headers {
-                    append(HttpHeaders.Accept, APP_JSON)
-                    append(HttpHeaders.Authorization, API_KEY)
-                }
+            } catch (e: UnresolvedAddressException) {
+                return Result.Error(NetworkError.NO_INTERNET)
+            } catch (e: SerializationException) {
+                return Result.Error(NetworkError.SERIALIZATION)
             }
-        } catch (e: UnresolvedAddressException) {
-            return Result.Error(NetworkError.NO_INTERNET)
-        } catch (e: SerializationException) {
-            return Result.Error(NetworkError.SERIALIZATION)
-        }
         return when (response.status.value) {
             in 200..299 -> {
                 val movieList = response.body<MovieListResponse>()
