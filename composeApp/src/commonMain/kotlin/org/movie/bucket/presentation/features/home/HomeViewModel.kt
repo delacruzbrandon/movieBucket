@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.koin.android.annotation.KoinViewModel
 import org.movie.bucket.domain.models.Movie
 import org.movie.bucket.domain.repositories.MovieRepository
 import org.movie.bucket.domain.utility.onError

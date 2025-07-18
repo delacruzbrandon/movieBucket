@@ -1,19 +1,13 @@
 package org.movie.bucket.data.network
 
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
-import io.ktor.client.request.headers
-import io.ktor.http.HttpHeaders
 import io.ktor.http.URLProtocol
 import io.ktor.http.parameters
 import io.ktor.http.path
-import io.ktor.util.network.UnresolvedAddressException
-import kotlinx.serialization.SerializationException
+import org.movie.bucket.domain.handler.safeKtorRequest
+import org.movie.bucket.domain.models.Genre
 import org.movie.bucket.domain.models.MovieListResponse
 import org.movie.bucket.domain.repositories.MovieRepository
-import org.movie.bucket.domain.utility.Constants.API_KEY
-import org.movie.bucket.domain.utility.Constants.APP_JSON
 import org.movie.bucket.domain.utility.Constants.BASE_URL
 import org.movie.bucket.domain.utility.Result
 import util.NetworkError
@@ -26,36 +20,34 @@ class KtorMovieClient(
         language: String,
         page: Int
     ): Result<MovieListResponse, NetworkError>? {
-        val response =
-            try {
-                httpClient.get {
-                    url {
-                        protocol = URLProtocol.HTTPS
-                        host = BASE_URL
-                        path("3/movie/popular")
-                    }
-                    parameters {
-                        append("language", language)
-                        append("page", page.toString())
-                    }
-                    headers {
-                        append(HttpHeaders.Accept, APP_JSON)
-                        append(HttpHeaders.Authorization, API_KEY)
-                    }
+        return safeKtorRequest(
+            httpClient
+        ) {
+//            httpClient.get {}
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = BASE_URL
+                    path("3/movie/popular")
                 }
-            } catch (e: UnresolvedAddressException) {
-                return Result.Error(NetworkError.NO_INTERNET)
-            } catch (e: SerializationException) {
-                return Result.Error(NetworkError.SERIALIZATION)
-            }
-        return when (response.status.value) {
-            in 200..299 -> {
-                val movieList = response.body<MovieListResponse>()
-                Result.Success(movieList)
-            }
+                parameters {
+                    append("language", language)
+                    append("page", page.toString())
+                }
+        }
+    }
 
-            else -> {
-                Result.Error(NetworkError.UNKNOWN)
+    override suspend fun getGenres(language: String?): Result<List<Genre>, NetworkError>? {
+        return safeKtorRequest(
+            httpClient
+        ) {
+//            httpClient.get {}
+            url {
+                protocol = URLProtocol.HTTPS
+                host = BASE_URL
+                path("3/genre/movie/list")
+            }
+            parameters {
+                append("language", language ?: "en")
             }
         }
     }

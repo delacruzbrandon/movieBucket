@@ -8,20 +8,20 @@ import org.movie.bucket.data.network.KtorMovieClient
 import org.movie.bucket.domain.builder.createHttpClient
 
 fun MainViewController() = ComposeUIViewController {
-    App(
-        cocktailClient = remember {
-            CocktailClient(
-                httpClient = createHttpClient(
-                    engine = Darwin.create()
-                )
-            )
-        },
-        ktorMovieClient = remember {
-            KtorMovieClient(
-                httpClient = createHttpClient(
-                    engine = Darwin.create()
-                )
-            )
-        },
+    CommonApp(
+//        cocktailClient = remember {
+//            CocktailClient(
+//                httpClient = createHttpClient(
+//                    engine = Darwin.create()
+//                )
+//            )
+//        },
+//        ktorMovieClient = remember {
+//            KtorMovieClient(
+//                httpClient = createHttpClient(
+//                    engine = Darwin.create()
+//                )
+//            )
+//        },
     )
 }
