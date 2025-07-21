@@ -15,7 +15,10 @@ import org.movie.bucket.domain.utility.Constants.APP_JSON
 import org.movie.bucket.domain.utility.Result
 import util.NetworkError
 
-suspend inline fun <reified T> safeKtorRequest(httpClient: HttpClient, requestBuilder: HttpRequestBuilder.() -> Unit): Result<T, NetworkError>? {
+suspend inline fun <reified T> safeKtorRequest(
+    httpClient: HttpClient,
+    requestBuilder: HttpRequestBuilder.() -> Unit
+): Result<T, NetworkError>? {
     val response =
         try {
             httpClient.get {

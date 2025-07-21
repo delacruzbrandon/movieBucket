@@ -5,7 +5,6 @@ import io.ktor.http.URLProtocol
 import io.ktor.http.parameters
 import io.ktor.http.path
 import org.movie.bucket.domain.handler.safeKtorRequest
-import org.movie.bucket.domain.models.Genre
 import org.movie.bucket.domain.models.MovieListResponse
 import org.movie.bucket.domain.repositories.MovieRepository
 import org.movie.bucket.domain.utility.Constants.BASE_URL
@@ -23,31 +22,14 @@ class KtorMovieClient(
         return safeKtorRequest(
             httpClient
         ) {
-//            httpClient.get {}
-                url {
-                    protocol = URLProtocol.HTTPS
-                    host = BASE_URL
-                    path("3/movie/popular")
-                }
-                parameters {
-                    append("language", language)
-                    append("page", page.toString())
-                }
-        }
-    }
-
-    override suspend fun getGenres(language: String?): Result<List<Genre>, NetworkError>? {
-        return safeKtorRequest(
-            httpClient
-        ) {
-//            httpClient.get {}
             url {
                 protocol = URLProtocol.HTTPS
                 host = BASE_URL
-                path("3/genre/movie/list")
+                path("3/movie/popular")
             }
             parameters {
-                append("language", language ?: "en")
+                append("language", language)
+                append("page", page.toString())
             }
         }
     }

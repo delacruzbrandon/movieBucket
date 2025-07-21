@@ -26,7 +26,7 @@ fun SkipButton(
     ) {
         Icon(
             modifier = modifier
-                .size(52.dp),
+                .size(30.dp),
             imageVector = EvaIcons.Fill.Close,
             contentDescription = "Skip",
             tint = Color.White

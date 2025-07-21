@@ -26,7 +26,7 @@ fun SuperLikeButton(
     ) {
         Icon(
             modifier = modifier
-                .size(30.dp),
+                .size(52.dp),
             imageVector = EvaIcons.Fill.Flash,
             contentDescription = "Super Like",
             tint = Color.White
